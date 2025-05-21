@@ -1,3 +1,5 @@
+*** Cloned from LCTfound works, this repo is only used for test myself
+
 # LCTfound-Pretrain: Diffusion Model Pretraining for Medical Image Generation
 
 This repository contains code for **pretraining diffusion models** to generate lung CT images, guided by text prompts using `ChineseBERT`.
