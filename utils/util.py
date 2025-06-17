@@ -63,8 +63,12 @@ class FundusDataset(Dataset):
         # 转换颜色空间从BGR到RGB
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         
-        # 归一化到0-1范围
-        img = img.astype(np.float32) / 255.0
+        # 确保图像是uint8格式
+        if img.dtype != np.uint8:
+            img = img.astype(np.uint8)
+        
+        # 转换为float32但保持在[0,255]范围，让transforms处理归一化
+        img = img.astype(np.float32)
         
         # 转换为PyTorch格式 (C,H,W)
         img = np.transpose(img, (2,0,1))
@@ -113,16 +117,19 @@ def get_dl(config):
     返回:
         tuple: (数据加载器, 数据集)
     """
-    # 定义训练数据变换
+    # 定义训练数据变换 - 修复数据范围问题
     train_transforms = transforms.Compose([
             # transforms.RandScaleCrop([0.9,0.9],[1.1,1.1],random_size=True),
             transforms.Resize([config.image_size,config.image_size]),
             transforms.RandFlip(prob=0.5, spatial_axis=0),
             transforms.RandFlip(prob=0.5, spatial_axis=1),
             # transforms.RandRotate90(prob=0.3),
+            
+            # 关键修复：确保正确的数据范围转换
+            transforms.ScaleIntensity(minv=0.0, maxv=1.0),  # 先归一化到[0,1]
             transforms.ToTensor(),
             # transforms.RandAdjustContrast(prob=0.1, gamma=(0.97, 1.03)),
-            transforms.NormalizeIntensity(0.5, 0.5),
+            transforms.NormalizeIntensity(0.5, 0.5),  # 然后转换到[-1,1]
         ])
 
     # 创建数据集和数据加载器
