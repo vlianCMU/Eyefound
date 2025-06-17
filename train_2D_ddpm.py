@@ -30,7 +30,7 @@ class TrainingConfig:
     lr_warmup_steps = 5000
     eval_freq_step = 5000
     mixed_precision = "fp16"  # `no` for float32, `fp16` for automatic mixed precision
-    output_dir = "改为CFP后更新的模型"  # the model name locally and on the HF Hub
+    output_dir = "全新模型"  # the model name locally and on the HF Hub
     num_workers = 16
     overwrite_output_dir = True  # overwrite the old model when re-running the notebook
     seed = 421

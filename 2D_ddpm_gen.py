@@ -15,8 +15,8 @@ class GenerationConfig:
     image_size = 256
     eval_batch_size = 4
     mixed_precision = "fp16"
-    output_dir = "fundus_generated_最新基础模型"  # 生成图像的保存目录
-    pretrain_path = "./改为CFP后更新的模型/unet/"  # 您训练好的模型路径
+    output_dir = "./全新结果"  # 生成图像的保存目录
+    pretrain_path = "./全新模型/unet/"  # 您训练好的模型路径
     bert_path = "./bertmodel"  # BERT模型路径
     seed = 42
 
@@ -134,11 +134,16 @@ def gen_loop(config):
     
     # 定义要生成的眼底图像类型
     eye_conditions = [
-        ("normal", "a normal fundus image"),
-        ("diabetic_retinopathy", "a fundus image with diabetic retinopathy"),
-        ("glaucoma", "a fundus image with glaucoma"),
-        ("cataract", "a fundus image with cataract"),
-        ("others", "a fundus image with no or other diseases")
+        # ("normal", "a normal CFP image"),
+        ("diabetic_retinopathy", "a colored fundus image with diabetic retinopathy"),
+        ("glaucoma", "a colored fundus image with glaucoma"),
+        ("cataract", "a colored fundus image with cataract"),
+        ("age-related_macular_degeneration", "a colored fundus image with age-related macular degeneration"),
+        
+
+        # ("others", "a CFP image with no or other diseases")
+        # ("others", "a CFP image that has no description or with no matching target diseases")
+
     ]
     
     # 为每种类型生成图像
